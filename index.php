@@ -10,7 +10,12 @@
 	<meta name="description" content="sudoku game site">
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script>
-		let fromDBboard = '023794856784561923569382471871235649295648137346917285432156798917823564658479312';
+		<?php
+		$db = new SQLite3(".db/sudoku.db");
+		$out = $db->query("SELECT board FROM boards ORDER BY RANDOM() LIMIT 1;");
+		$board = $out->fetchArray()[0];
+		echo "let fromDBboard = '$board';";
+		?>
 	</script>
 </head>
 
