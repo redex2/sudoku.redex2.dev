@@ -1,0 +1,45 @@
+html,
+head,
+body {
+	margin: 0;
+}
+
+body {
+	background-color: #0f0f0f;
+	color: #dcdcdc;
+	text-align: center;
+}
+
+canvas {
+	max-height: 75vh;
+	max-width: 100%;
+}
+
+h1 {
+	color: #b4fab4;
+}
+
+h2 {
+	color: #c8dcc8;
+}
+
+a {
+	color: #fac896;
+}
+
+#modal_container {
+	top: 0;
+	left: 0;
+	position: fixed;
+	z-index: 1;
+	background-color: rgba(0, 0, 0, 0.4);
+	width: 100%;
+	height: 100%;
+}
+
+#modal_content {
+	margin: 5% auto;
+	background-color: #0f0f0f;
+	width: 80%;
+	padding: 5%;
+}
