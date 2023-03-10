@@ -8,7 +8,7 @@
 	<title>Sudoku game - Redex2's website</title>
 	<meta name="robots" content="index,follow,noarchive" />
 	<meta name="description" content="sudoku game site">
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="https://sudoku.redex2.dev/style.css">
 	<script>
 		<?php
 		$db = new SQLite3(".db/sudoku.db");
@@ -31,7 +31,7 @@
 	<main>
 		<canvas id="canvas"></canvas>
 	</main>
-	<script type="text/javascript" src="script.js"></script>
+	<script type="text/javascript" src="https://sudoku.redex2.dev/script.js"></script>
 </body>
 
 </html>
