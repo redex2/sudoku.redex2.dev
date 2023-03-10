@@ -21,7 +21,7 @@
 	</div>
 	<header>
 		<h1>Sudoku game</h1>
-		<h2><a href="redex2.dev">Main page - redex2.dev</a></h2>
+		<h2><a href="https://redex2.dev">Main page - redex2.dev</a></h2>
 	</header>
 	<main>
 		<canvas id="canvas"></canvas>
