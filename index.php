@@ -21,6 +21,7 @@
 		}
 		?>
 	</script>
+	<script type="text/javascript" src="https://sudoku.redex2.dev/script.js"></script>
 </head>
 
 <body>
@@ -35,7 +36,6 @@
 	<main>
 		<canvas id="canvas"></canvas>
 	</main>
-	<script type="text/javascript" src="https://sudoku.redex2.dev/script.js"></script>
 </body>
 
 </html>

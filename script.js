@@ -148,7 +148,7 @@ function thereIsOneNumberInEachField() {
 	return true;
 }
 
-function clickEvent(evt) {
+function clickEvent(evt, ctx) {
 
 	let mousePos = getMousePos(canvas, evt);
 	const x = mousePos.x;
@@ -207,7 +207,6 @@ async function check(fromDBboard, smallBoard) {
 		});
 }
 
-
 function initArray() {
 	board = new Array(9);
 	for (let i = 0; i < 9; i++) board[i] = new Array(9);
@@ -235,13 +234,16 @@ function toArray(strBoard) {
 	}
 }
 
-
-initArray();
-toArray(fromDBboard);
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext('2d');
-const div = document.getElementsByClassName("content");
-canvas.width = boardWidth;
-canvas.height = boardHeight;
-printBoard(ctx);
-canvas.addEventListener('click', function (evt) { clickEvent(evt); });
+window.addEventListener("load", () => {
+	if (fromDBboard !== undefined) {
+		initArray();
+		toArray(fromDBboard);
+		const canvas = document.getElementById("canvas");
+		const ctx = canvas.getContext('2d');
+		const div = document.getElementsByClassName("content");
+		canvas.width = boardWidth;
+		canvas.height = boardHeight;
+		printBoard(ctx);
+		canvas.addEventListener('click', (evt) => { clickEvent(evt, ctx); });
+	}
+});
