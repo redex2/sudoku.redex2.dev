@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://sudoku.redex2.dev/sitemap.xml
