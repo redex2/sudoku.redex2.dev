@@ -1,8 +1,26 @@
 <?php
-if (!isset($_GET['b']) || !isset($_GET['s']))
+if (!isset($_GET['b']) || !isset($_GET['s'])) {
 	header("404", true, 404);
-if (!preg_match("/^[0-9]{81}$/", $_GET['b']) || !preg_match("/^[0-9]{81}$/", $_GET['s']))
+	exit;
+}
+if (!preg_match("/^[0-9]{81}$/", $_GET['b']) || !preg_match("/^[0-9]{81}$/", $_GET['s'])) {
 	header("404", true, 404);
+	exit;
+}
 
-echo 1;
+$board = $_GET['b'];
+$solved = $_GET['s'];
+
+$db = new SQLite3(".db/sudoku.db");
+$out = $db->query("SELECT solve FROM boards WHERE board = '$board';");
+$solvedFromDb = $out->fetchArray();
+
+if ($solvedFromDb == false)
+	exit;
+
+if ($solvedFromDb[0] == $solved)
+	echo "1";
+else
+	echo "0";
+
 ?>

@@ -186,7 +186,7 @@ async function check(fromDBboard, smallBoard) {
 	let modal = document.getElementById("modal_content");
 	modal.innerHTML = "<h3>Checking...</h3><p>connecting to server...</p>";
 	document.getElementById("modal_container").style.display = "block";
-	await fetch(`check.php?b=${fromDBboard}&s=${smallBoard}#${new Date().getTime()}`)
+	await fetch(`https://sudoku.redex2.dev/check.php?b=${fromDBboard}&s=${smallBoard}#${new Date().getTime()}`)
 		.then((response) => {
 			if (response.ok) return response.text()
 			else throw new Error(response.status)
