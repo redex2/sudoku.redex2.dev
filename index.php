@@ -11,10 +11,14 @@
 	<link rel="stylesheet" type="text/css" href="https://sudoku.redex2.dev/style.css">
 	<script>
 		<?php
-		$db = new SQLite3(".db/sudoku.db");
-		$out = $db->query("SELECT board FROM boards ORDER BY RANDOM() LIMIT 1;");
-		$board = $out->fetchArray()[0];
-		echo "let fromDBboard = '$board';";
+		try {
+			$db = new SQLite3(".db/sudoku.db", SQLITE3_OPEN_READONLY);
+			$out = $db->query("SELECT board FROM boards ORDER BY RANDOM() LIMIT 1;");
+			$board = $out->fetchArray();
+			if ($board != false)
+				echo "let fromDBboard = '$board[0]';";
+		} catch (Exception) {
+		}
 		?>
 	</script>
 </head>

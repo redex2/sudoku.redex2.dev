@@ -11,7 +11,7 @@ if (!preg_match("/^[0-9]{81}$/", $_GET['b']) || !preg_match("/^[0-9]{81}$/", $_G
 $board = $_GET['b'];
 $solved = $_GET['s'];
 
-$db = new SQLite3(".db/sudoku.db");
+$db = new SQLite3(".db/sudoku.db", SQLITE3_OPEN_READONLY);
 $out = $db->query("SELECT solve FROM boards WHERE board = '$board';");
 $solvedFromDb = $out->fetchArray();
 
