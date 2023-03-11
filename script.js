@@ -240,7 +240,6 @@ window.addEventListener("load", () => {
 		toArray(fromDBboard);
 		const canvas = document.getElementById("canvas");
 		const ctx = canvas.getContext('2d');
-		const div = document.getElementsByClassName("content");
 		canvas.width = boardWidth;
 		canvas.height = boardHeight;
 		printBoard(ctx);
