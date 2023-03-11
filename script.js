@@ -135,7 +135,7 @@ function createStringBoard(board) {
 	return strBoard;
 }
 
-function thereIsOneNumberInEachField() {
+function thereIsOneNumberInEachSquare() {
 	for (i = 0; i < 9; i++) {
 		for (j = 0; j < 9; j++) {
 			let numbers = 0;
@@ -175,7 +175,7 @@ function clickEvent(evt, ctx) {
 			selectedInMenu[y] = board[selectedX][selectedY][y + 1];
 		}
 		printBoard(ctx);
-		if (thereIsOneNumberInEachField()) {
+		if (thereIsOneNumberInEachSquare()) {
 			stringBoard = createStringBoard(board);
 			check(fromDBboard, stringBoard);
 		}
