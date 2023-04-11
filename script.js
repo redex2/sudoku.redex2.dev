@@ -11,7 +11,7 @@ const smallFont = "150px serif";
 const boardHeight = 4600;
 const boardWidth = 5110;
 let stringBoard = "";
-let board = null;
+let grid = null;
 let selectedInBoard = null;
 let selectedInMenu = null;
 
@@ -55,13 +55,13 @@ function printBoard(ctx) {
 			let numbers = 0;
 			let temp = 0;
 			for (let i = 1; i < 10; i++) {
-				if (board[x][y][i] == 1) {
+				if (grid[x][y][i] == 1) {
 					numbers++;
 					temp = i;
 				}
 			}
 
-			if (!board[x][y][0]) ctx.fillStyle = numbColor;
+			if (!grid[x][y][0]) ctx.fillStyle = numbColor;
 			else ctx.fillStyle = unumColor;
 
 			if (numbers == 1) {
@@ -74,7 +74,7 @@ function printBoard(ctx) {
 				ctx.beginPath();
 				ctx.font = smallFont;
 				for (let i = 1; i < 10; i++) {
-					if (board[x][y][i] == 1) {
+					if (grid[x][y][i] == 1) {
 						ctx.fillText(i, (x + 1) * (boardWidth / 10) + (boardWidth / 70) + ((i - 1) % 3) * (boardWidth / 40), (y * (boardHeight / 9) + (boardHeight / 25) + Math.floor((i - 1) / 3) * (boardHeight / 36)));
 					}
 				}
@@ -123,16 +123,16 @@ function getMousePos(canvas, event) {
 	};
 }
 
-function createStringBoard(board) {
-	strBoard = "";
+function gridToString(grid) {
+	strGrid = "";
 	for (let i = 0; i < 81; i++) {
 		let a = i % 9;
 		let b = Math.floor(i / 9);
 		let n = 0;
-		for (k = 1; board[a][b][k] == 0; k++) n++;
-		strBoard += String(n + 1);
+		for (k = 1; grid[a][b][k] == 0; k++) n++;
+		strGrid += String(n + 1);
 	}
-	return strBoard;
+	return strGrid;
 }
 
 function thereIsOneNumberInEachSquare() {
@@ -140,7 +140,7 @@ function thereIsOneNumberInEachSquare() {
 		for (j = 0; j < 9; j++) {
 			let numbers = 0;
 			for (k = 1; k < 10; k++) {
-				if (board[i][j][k] == 1) numbers++;
+				if (grid[i][j][k] == 1) numbers++;
 			}
 			if (numbers != 1) return false;
 		}
@@ -157,9 +157,9 @@ function clickEvent(evt, ctx) {
 	if (x > 0) {
 		for (let i = 0; i < 9; i++) selectedInMenu[i] = 0;
 		for (let i = 0; i < 9; i++) for (let j = 0; j < 9; j++)selectedInBoard[i][j] = 0;
-		if (board[x - 1][y][0]) {
+		if (grid[x - 1][y][0]) {
 			selectedInBoard[x - 1][y] = 1;
-			for (let i = 0; i < 9; i++) selectedInMenu[i] = board[x - 1][y][i + 1];
+			for (let i = 0; i < 9; i++) selectedInMenu[i] = grid[x - 1][y][i + 1];
 		}
 		printBoard(ctx);
 	}
@@ -171,22 +171,22 @@ function clickEvent(evt, ctx) {
 			selectedY = j;
 		}
 		if (selectedX != null && selectedY != null) {
-			board[selectedX][selectedY][y + 1] ^= 1;
-			selectedInMenu[y] = board[selectedX][selectedY][y + 1];
+			grid[selectedX][selectedY][y + 1] ^= 1;
+			selectedInMenu[y] = grid[selectedX][selectedY][y + 1];
 		}
 		printBoard(ctx);
 		if (thereIsOneNumberInEachSquare()) {
-			stringBoard = createStringBoard(board);
-			check(fromDBboard, stringBoard);
+			solution = gridToString(grid);
+			check(puzzle, solution);
 		}
 	}
 }
 
-async function check(fromDBboard, smallBoard) {
+async function check(puzzle, smallBoard) {
 	let modal = document.getElementById("modal_content");
 	modal.innerHTML = "<h3>Checking...</h3><p>connecting to server...</p>";
 	document.getElementById("modal_container").style.display = "block";
-	await fetch(`https://sudoku.redex2.dev/check.php?b=${fromDBboard}&s=${smallBoard}#${new Date().getTime()}`)
+	await fetch(`https://sudoku.redex2.dev/check.php?p=${puzzle}&s=${solution}#${new Date().getTime()}`)
 		.then((response) => {
 			if (response.ok) return response.text()
 			else throw new Error(response.status)
@@ -207,11 +207,11 @@ async function check(fromDBboard, smallBoard) {
 		});
 }
 
-function initArray() {
-	board = new Array(9);
-	for (let i = 0; i < 9; i++) board[i] = new Array(9);
-	for (let i = 0; i < 9; i++) for (let j = 0; j < 9; j++) board[i][j] = new Array(11);
-	for (let i = 0; i < 9; i++) for (let j = 0; j < 9; j++)for (let k = 0; k < 11; k++) board[i][j][k] = 0;
+function initArray(puzzle) {
+	grid = new Array(9);
+	for (let i = 0; i < 9; i++) grid[i] = new Array(9);
+	for (let i = 0; i < 9; i++) for (let j = 0; j < 9; j++) grid[i][j] = new Array(11);
+	for (let i = 0; i < 9; i++) for (let j = 0; j < 9; j++)for (let k = 0; k < 11; k++) grid[i][j][k] = 0;
 
 	selectedInBoard = new Array(9);
 	for (let i = 0; i < 9; i++) selectedInBoard[i] = new Array(9);
@@ -219,25 +219,23 @@ function initArray() {
 
 	selectedInMenu = new Array(9);
 	for (let i = 0; i < 9; i++) selectedInMenu[i] = 0;
-}
 
-function toArray(strBoard) {
-	data = strBoard.match('^[0-9]{81}$')[0];
+
+	data = puzzle.match('^[0-9]{81}$')[0];
 	for (let i = 0; i < 81; i++) {
 		let c = parseInt(data[i]);
 		let a = i % 9;
 		let b = Math.floor(i / 9);
-		board[a][b][c] = 1;
+		grid[a][b][c] = 1;
 
-		if (c != 0) board[a][b][10] = 1;
-		else board[a][b][10] = 0;
+		if (c != 0) grid[a][b][10] = 1;
+		else grid[a][b][10] = 0;
 	}
 }
 
 window.addEventListener("load", () => {
-	if (fromDBboard !== undefined) {
-		initArray();
-		toArray(fromDBboard);
+	if (puzzle !== undefined) {
+		initArray(puzzle);
 		const canvas = document.getElementById("canvas");
 		const ctx = canvas.getContext('2d');
 		canvas.width = boardWidth;

@@ -13,10 +13,10 @@
 		<?php
 		try {
 			$db = new SQLite3(".db/sudoku.db", SQLITE3_OPEN_READONLY);
-			$out = $db->query("SELECT board FROM boards ORDER BY RANDOM() LIMIT 1;");
-			$board = $out->fetchArray();
-			if ($board != false)
-				echo "let fromDBboard = '$board[0]';";
+			$out = $db->query("SELECT puzzle FROM sudoku ORDER BY RANDOM() LIMIT 1;");
+			$puzzle = $out->fetchArray();
+			if ($puzzle != false)
+				echo "let puzzle = '$puzzle[0]';";
 		} catch (Exception) {
 		}
 		?>

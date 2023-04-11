@@ -8,17 +8,16 @@ if (!preg_match("/^[0-9]{81}$/", $_GET['b']) || !preg_match("/^[0-9]{81}$/", $_G
 	exit;
 }
 
-$board = $_GET['b'];
-$solved = $_GET['s'];
+$puzzle = $_GET['p'];
 
 $db = new SQLite3(".db/sudoku.db", SQLITE3_OPEN_READONLY);
-$out = $db->query("SELECT solve FROM boards WHERE board = '$board';");
-$solvedFromDb = $out->fetchArray();
+$out = $db->query("SELECT solution FROM sudoku WHERE puzzle = '$puzzle';");
+$solution = $out->fetchArray();
 
-if ($solvedFromDb == false)
+if ($solution == false)
 	exit;
 
-if ($solvedFromDb[0] == $solved)
+if ($solution[0] == $_GET['s'])
 	echo "1";
 else
 	echo "0";
