@@ -21,6 +21,8 @@ if (
         $puzzle = $out->fetchArray();
         if ($puzzle != false)
             echo $puzzle[0];
+        else
+            error();
     } catch (Exception) {
         error();
     }
