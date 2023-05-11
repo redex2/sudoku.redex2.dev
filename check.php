@@ -8,7 +8,7 @@ if (!preg_match("/^[0-9]{81}$/", $_GET['b']) || !preg_match("/^[0-9]{81}$/", $_G
 	exit;
 }
 
-$puzzle = $_GET['p'];
+$puzzle = $_GET['b'];
 
 $db = new SQLite3(".db/sudoku.db", SQLITE3_OPEN_READONLY);
 $out = $db->query("SELECT solution FROM sudoku WHERE puzzle = '$puzzle';");
